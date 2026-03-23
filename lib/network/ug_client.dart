@@ -32,7 +32,7 @@ class UgClient {
   static const String _ppeIdiomaUrl =
       "https://servicioenlinea.ug.edu.ec/OfertaPPEapi/api/Idioma/ObtieneIdioma";
 
-  // ------------------ FIX: JSON decode robusto ------------------
+  
 
   dynamic _decodeJsonLoose(String body) {
     dynamic v;
@@ -42,7 +42,7 @@ class UgClient {
       throw Exception("JSON inválido: $e\nBody: $body");
     }
 
-    // Si viene doblemente codificado: jsonDecode devuelve String con { ... } o [ ... ]
+    
     if (v is String) {
       final s = v.trim();
       final looksJson = (s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']'));
@@ -50,19 +50,14 @@ class UgClient {
         try {
           v = jsonDecode(s);
         } catch (_) {
-          // si falla, dejamos el String tal cual
+         
         }
       }
-    }
-
-    return v;
-  }
+    } return v; }
 
   Map<String, dynamic> _asMap(dynamic v, {String where = "respuesta"}) {
     if (v is Map<String, dynamic>) return v;
     if (v is Map) return Map<String, dynamic>.from(v);
-
-    // Algunas APIs a veces responden [ { ... } ]
     if (v is List && v.isNotEmpty && v.first is Map) {
       return Map<String, dynamic>.from(v.first as Map);
     }

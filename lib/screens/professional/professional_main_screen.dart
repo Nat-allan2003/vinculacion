@@ -547,7 +547,7 @@ class _ProfessionalMainScreenState extends State<ProfessionalMainScreen> {
     final safeIndex = (_selectedIndex >= 0 && _selectedIndex < items.length) ? _selectedIndex : 0;
 
     return WillPopScope(
-      onWillPop: () async => false, // 🔒 no retroceder con back
+      onWillPop: () async => false, // no retroceder con back
       child: Theme(
         data: Theme.of(context).copyWith(
           useMaterial3: true,
