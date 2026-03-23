@@ -10,9 +10,7 @@ import 'ug/ug_endpoints.dart';
 import 'ug/ug_models.dart';
 
 class UgClient {
-  UgClient._internal()
-      : _http = http.Client(),
-        _store = TokenStore() {
+  UgClient._internal() : _http = http.Client(), _store = TokenStore() {
     _authApi = UgAuthApi(_http);
   }
 
@@ -45,7 +43,9 @@ class UgClient {
     
     if (v is String) {
       final s = v.trim();
-      final looksJson = (s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']'));
+      final looksJson =
+          (s.startsWith('{') && s.endsWith('}')) ||
+          (s.startsWith('[') && s.endsWith(']'));
       if (looksJson) {
         try {
           v = jsonDecode(s);
@@ -67,9 +67,19 @@ class UgClient {
 
   Map<String, dynamic> _normalizeOfertaPpe(Map<String, dynamic> m) {
     // Acepta variantes de claves y deja todo consistente para UgOfertaPpeResponse.fromJson
-    dynamic cod = m['codError'] ?? m['CodError'] ?? m['CODERROR'] ?? m['CodigoError'] ?? m['codigoError'];
+    dynamic cod =
+        m['codError'] ??
+        m['CodError'] ??
+        m['CODERROR'] ??
+        m['CodigoError'] ??
+        m['codigoError'];
     dynamic msg = m['mensaje'] ?? m['Mensaje'] ?? m['MENSAJE'];
-    dynamic dt = m['dtResultado'] ?? m['DtResultado'] ?? m['DTRESULTADO'] ?? m['resultado'] ?? m['Resultado'];
+    dynamic dt =
+        m['dtResultado'] ??
+        m['DtResultado'] ??
+        m['DTRESULTADO'] ??
+        m['resultado'] ??
+        m['Resultado'];
 
     // Normaliza codError como int (si viene string)
     int codInt = 0;
@@ -86,7 +96,9 @@ class UgClient {
 
     if (dtFixed is String) {
       final s = dtFixed.trim();
-      final looksJson = (s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']'));
+      final looksJson =
+          (s.startsWith('{') && s.endsWith('}')) ||
+          (s.startsWith('[') && s.endsWith(']'));
       if (looksJson) {
         try {
           dtFixed = jsonDecode(s);
@@ -135,7 +147,8 @@ class UgClient {
       );
 
       final exp = jwtExpiry(token);
-      final expUtc = exp ?? DateTime.now().toUtc().add(const Duration(minutes: 10));
+      final expUtc =
+          exp ?? DateTime.now().toUtc().add(const Duration(minutes: 10));
 
       await _store.save(token: token, expUtc: expUtc);
       return token;
@@ -182,6 +195,9 @@ class UgClient {
     var token = await getValidToken();
     var res = await doCall(token);
 
+    print("--Logeando-- ");
+    print("Data:  ${res.statusCode} - ${res.body}");
+
     if (res.statusCode == 401 || res.statusCode == 403) {
       token = await _refreshToken();
       res = await doCall(token);
@@ -223,11 +239,16 @@ class UgClient {
     required String usuario,
     required int sistema,
   }) async {
-    final req = UgGetDataRequest.obtenerMenu(usuario: usuario, sistema: sistema);
+    final req = UgGetDataRequest.obtenerMenu(
+      usuario: usuario,
+      sistema: sistema,
+    );
     final resp = await _postGetData(req);
 
     if (resp.estado.toUpperCase() != 'OK') {
-      throw Exception(resp.mensaje.isEmpty ? 'Error al obtener menú' : resp.mensaje);
+      throw Exception(
+        resp.mensaje.isEmpty ? 'Error al obtener menú' : resp.mensaje,
+      );
     }
 
     final items = resp.resultado.map(UgMenuItem.fromJson).toList();
@@ -253,7 +274,9 @@ class UgClient {
     final resp = await _postGetData(req);
 
     if (resp.estado.toUpperCase() != 'OK') {
-      throw Exception(resp.mensaje.isEmpty ? 'Error al obtener submenú' : resp.mensaje);
+      throw Exception(
+        resp.mensaje.isEmpty ? 'Error al obtener submenú' : resp.mensaje,
+      );
     }
 
     final items = resp.resultado.map(UgSubMenuItem.fromJson).toList();
@@ -315,7 +338,9 @@ class UgClient {
     final resp = await _postOfertaPpe(_ppeDatosPersonalesUrl, req.toJson());
 
     if (resp.codError != 0) {
-      throw Exception(resp.mensaje.isEmpty ? "Error en ObtieneDatosPersonales" : resp.mensaje);
+      throw Exception(
+        resp.mensaje.isEmpty ? "Error en ObtieneDatosPersonales" : resp.mensaje,
+      );
     }
 
     return resp.dtResultado.map(UgDatosPersonales.fromJson).toList();
@@ -348,7 +373,9 @@ class UgClient {
     final resp = await _postOfertaPpe(_ppeEducacionUrl, req.toJson());
 
     if (resp.codError != 0) {
-      throw Exception(resp.mensaje.isEmpty ? "Error en ObtieneEducacion" : resp.mensaje);
+      throw Exception(
+        resp.mensaje.isEmpty ? "Error en ObtieneEducacion" : resp.mensaje,
+      );
     }
 
     return resp.dtResultado.map(UgEducacion.fromJson).toList();
@@ -368,13 +395,18 @@ class UgClient {
     final resp = await _postOfertaPpe(_ppeIdiomaUrl, req.toJson());
 
     if (resp.codError != 0) {
-      throw Exception(resp.mensaje.isEmpty ? "Error en ObtieneIdioma" : resp.mensaje);
+      throw Exception(
+        resp.mensaje.isEmpty ? "Error en ObtieneIdioma" : resp.mensaje,
+      );
     }
 
     return resp.dtResultado.map(UgIdioma.fromJson).toList();
   }
 
-  Future<UgOfertaPpeResponse> _postOfertaPpe(String url, Map<String, dynamic> bodyMap) async {
+  Future<UgOfertaPpeResponse> _postOfertaPpe(
+    String url,
+    Map<String, dynamic> bodyMap,
+  ) async {
     Future<http.Response> doCall(String token) {
       return _http.post(
         Uri.parse(url),
