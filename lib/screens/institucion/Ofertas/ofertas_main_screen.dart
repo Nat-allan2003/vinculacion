@@ -82,16 +82,76 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                 ),
                 const SizedBox(height: 16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Proyectos y Vacantes",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: _ink,
+                    // Opción: Ofertas Vigentes
+                    GestureDetector(
+                      onTap: () => _controller.setVigentesFilter(true),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _controller.showVigentes
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_off,
+                            color: _controller.showVigentes
+                                ? const Color(0xFF0EA5E9)
+                                : Colors.grey.shade400,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "Ofertas Vigentes",
+                            style: TextStyle(
+                              color: _controller.showVigentes
+                                  ? Colors.black87
+                                  : Colors.grey.shade600,
+                              fontWeight: _controller.showVigentes
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "-",
+                        style: TextStyle(color: Colors.grey.shade400),
+                      ),
+                    ),
+
+                    // Opción: Ofertas Vencidas
+                    GestureDetector(
+                      onTap: () => _controller.setVigentesFilter(false),
+                      child: Row(
+                        children: [
+                          Icon(
+                            !_controller.showVigentes
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_off,
+                            color: !_controller.showVigentes
+                                ? const Color(0xFF0EA5E9)
+                                : Colors.grey.shade400,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "Ofertas Vencidas",
+                            style: TextStyle(
+                              color: !_controller.showVigentes
+                                  ? Colors.black87
+                                  : Colors.grey.shade600,
+                              fontWeight: !_controller.showVigentes
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
                     FilledButton.icon(
                       onPressed: () async {
                         final nuevaOferta = await Navigator.push(
@@ -100,29 +160,33 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                             builder: (_) => const PublicarOfertaScreen(),
                           ),
                         );
-
                         if (nuevaOferta != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("Oferta agregada a la lista local"),
+                              content: Text("Oferta agregada localmente"),
                             ),
                           );
                         }
                       },
                       style: FilledButton.styleFrom(
-                        backgroundColor: _ink,
+                        backgroundColor: const Color(0xFF0EA5E9),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        minimumSize: const Size(0, 36),
                       ),
-                      icon: const Icon(Icons.add_rounded, size: 20),
+                      icon: const Icon(
+                        Icons.add,
+                        size: 18,
+                        color: Colors.white,
+                      ),
                       label: const Text(
-                        "Publicar",
-                        style: TextStyle(fontWeight: FontWeight.w900),
+                        "Nuevo",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -156,7 +220,7 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
               delegate: SliverChildBuilderDelegate((context, index) {
                 // Ahora usamos nuestro modelo fuertemente tipado
                 final oferta = _controller.foundOffers[index];
-                return OfferCard(oferta: oferta);
+                return WidgetOfertas(oferta: oferta);
               }, childCount: _controller.foundOffers.length),
             ),
           ),
