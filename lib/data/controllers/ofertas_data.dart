@@ -46,16 +46,39 @@ class OfertasData extends ChangeNotifier {
     notifyListeners();
   }
 
+  // 1. Nueva variable para saber si estamos viendo vigentes o vencidas
+  bool showVigentes = true;
+  String _lastKeyword = "";
+
+  // 2. Método para cambiar el filtro (Vigentes vs Vencidas)
+  void setVigentesFilter(bool value) {
+    showVigentes = value;
+    runFilter(
+      _lastKeyword,
+    ); // Volvemos a filtrar usando la última palabra buscada
+  }
+
+  // 3. Actualiza tu método runFilter actual por este:
   void runFilter(String keyword) {
-    final k = keyword.trim().toLowerCase();
-    if (k.isEmpty) {
-      foundOffers = List.of(_allOffers);
-    } else {
-      foundOffers = _allOffers.where((o) {
-        return o.title.toLowerCase().contains(k) ||
-            o.type.toLowerCase().contains(k);
-      }).toList();
-    }
+    _lastKeyword = keyword.trim().toLowerCase();
+
+    foundOffers = _allOffers.where((o) {
+      // Filtro de texto
+      bool matchText =
+          _lastKeyword.isEmpty ||
+          o.title.toLowerCase().contains(_lastKeyword) ||
+          o.type.toLowerCase().contains(_lastKeyword);
+
+      // Filtro de estado (Simulado: si dice "Cerrada" o "Vencida", no es vigente)
+      // Nota: Si tu modelo de base de datos tiene un campo exacto para esto, úsalo aquí.
+      bool isOfferVigente =
+          o.description.toLowerCase().contains("vencida") == false;
+
+      bool matchStatus = showVigentes ? isOfferVigente : !isOfferVigente;
+
+      return matchText && matchStatus;
+    }).toList();
+
     notifyListeners();
   }
 

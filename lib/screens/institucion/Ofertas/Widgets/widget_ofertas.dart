@@ -1,11 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:proto_segui/models/institucion_oferta.dart';
+import 'package:proto_segui/screens/institucion/Ofertas/editar_oferta_screen.dart';
 
-class OfferCard extends StatelessWidget {
+class WidgetOfertas extends StatelessWidget {
   final InstitucionOferta oferta;
 
-  const OfferCard({super.key, required this.oferta});
+  const WidgetOfertas({super.key, required this.oferta});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +98,24 @@ class OfferCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final updatedOffer = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EditarOfertaScreen(offer: oferta),
+                    ),
+                  );
+
+                  if (updatedOffer != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "Lista actualizada con la oferta editada",
+                        ),
+                      ),
+                    );
+                  }
+                },
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
