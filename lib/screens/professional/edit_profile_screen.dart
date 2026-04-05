@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:proto_segui/utils/colores.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String cedula, nombres, apellidos;
   final String paisNac, nacionalidad, provNac, ciudadNac;
-  final String estadoCivil, sexo, fechaNac, edad, telfConv, celular, correoInst, correoPers, etnia;
+  final String estadoCivil,
+      sexo,
+      fechaNac,
+      edad,
+      telfConv,
+      celular,
+      correoInst,
+      correoPers,
+      etnia;
   final String discapTipo, discapPorc;
   final String referencia, direccion;
 
@@ -60,12 +69,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final Set<String> _expanded = {"ident", "contact"};
 
-  static const Color _bg = Color(0xFFF4F6FA);
-  static const Color _muted = Color(0xFF64748B);
-  static const Color _primary = Color(0xFF2563EB);
-  static const Color _primary2 = Color(0xFF60A5FA);
-  static const Color _cardBorder = Color(0xFFE7EEF8);
-
   static const double _gap = 14;
   static const double _gapH = 12;
 
@@ -117,7 +120,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
-  String? _required(String? v) => (v == null || v.trim().isEmpty) ? "Este campo es obligatorio" : null;
+  String? _required(String? v) =>
+      (v == null || v.trim().isEmpty) ? "Este campo es obligatorio" : null;
 
   String? _email(String? v) {
     if (v == null || v.trim().isEmpty) return "Este campo es obligatorio";
@@ -144,7 +148,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   int _calcAge(DateTime birth) {
     final now = DateTime.now();
     int age = now.year - birth.year;
-    final hadBirthday = (now.month > birth.month) || (now.month == birth.month && now.day >= birth.day);
+    final hadBirthday =
+        (now.month > birth.month) ||
+        (now.month == birth.month && now.day >= birth.day);
     if (!hadBirthday) age--;
     return age < 0 ? 0 : age;
   }
@@ -199,7 +205,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         _selEtnia == null ||
         _selDiscapTipo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Completa todos los campos de selección (dropdowns).")),
+        const SnackBar(
+          content: Text("Completa todos los campos de selección (dropdowns)."),
+        ),
       );
       return;
     }
@@ -233,26 +241,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Theme(
       data: Theme.of(context).copyWith(
         useMaterial3: true,
-        scaffoldBackgroundColor: _bg,
-        colorScheme: ColorScheme.fromSeed(seedColor: _primary),
+        scaffoldBackgroundColor: backgroundC,
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryC),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
-          hintStyle: const TextStyle(color: _muted),
-          labelStyle: const TextStyle(color: _muted),
-          helperStyle: const TextStyle(color: _muted),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          hintStyle: const TextStyle(color: textMutedC),
+          labelStyle: const TextStyle(color: textMutedC),
+          helperStyle: const TextStyle(color: textMutedC),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _cardBorder),
+            borderSide: const BorderSide(color: cardBorderC),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _cardBorder),
+            borderSide: const BorderSide(color: cardBorderC),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _primary, width: 1.6),
+            borderSide: const BorderSide(color: primaryC, width: 1.6),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -267,7 +278,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             SliverAppBar(
               pinned: true,
               elevation: 0,
-              backgroundColor: _primary,
+              backgroundColor: primaryC,
               foregroundColor: Colors.white,
 
               // ✅ Menos alto para acercar título y nombre
@@ -304,7 +315,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _SectionCard(
                         expanded: _expanded.contains("ident"),
                         onToggle: () => setState(() {
-                          _expanded.contains("ident") ? _expanded.remove("ident") : _expanded.add("ident");
+                          _expanded.contains("ident")
+                              ? _expanded.remove("ident")
+                              : _expanded.add("ident");
                         }),
                         title: "Datos de identificación",
                         icon: Icons.badge_rounded,
@@ -325,7 +338,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Apellidos",
                                     controller: _apellidosCtrl,
                                     icon: Icons.person_rounded,
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     validator: _required,
                                   ),
                                 ),
@@ -335,7 +349,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Nombres",
                                     controller: _nombresCtrl,
                                     icon: Icons.person_rounded,
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     validator: _required,
                                   ),
                                 ),
@@ -350,7 +365,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _SectionCard(
                         expanded: _expanded.contains("birth"),
                         onToggle: () => setState(() {
-                          _expanded.contains("birth") ? _expanded.remove("birth") : _expanded.add("birth");
+                          _expanded.contains("birth")
+                              ? _expanded.remove("birth")
+                              : _expanded.add("birth");
                         }),
                         title: "Lugar de nacimiento",
                         icon: Icons.public_rounded,
@@ -363,9 +380,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "País",
                                     value: _selPaisNac,
                                     icon: Icons.flag_rounded,
-                                    items: const ["ECUADOR", "PERU", "COLOMBIA"],
-                                    onChanged: (v) => setState(() => _selPaisNac = v),
-                                    validator: (v) => v == null ? "Selecciona un país" : null,
+                                    items: const [
+                                      "ECUADOR",
+                                      "PERU",
+                                      "COLOMBIA",
+                                    ],
+                                    onChanged: (v) =>
+                                        setState(() => _selPaisNac = v),
+                                    validator: (v) =>
+                                        v == null ? "Selecciona un país" : null,
                                   ),
                                 ),
                                 const SizedBox(width: _gapH),
@@ -374,9 +397,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Nacionalidad",
                                     value: _selNacionalidad,
                                     icon: Icons.verified_user_rounded,
-                                    items: const ["ECUATORIANA", "PERUANA", "COLOMBIANA"],
-                                    onChanged: (v) => setState(() => _selNacionalidad = v),
-                                    validator: (v) => v == null ? "Selecciona nacionalidad" : null,
+                                    items: const [
+                                      "ECUATORIANA",
+                                      "PERUANA",
+                                      "COLOMBIANA",
+                                    ],
+                                    onChanged: (v) =>
+                                        setState(() => _selNacionalidad = v),
+                                    validator: (v) => v == null
+                                        ? "Selecciona nacionalidad"
+                                        : null,
                                   ),
                                 ),
                               ],
@@ -389,9 +419,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Provincia",
                                     value: _selProvNac,
                                     icon: Icons.map_rounded,
-                                    items: const ["GUAYAS", "PICHINCHA", "AZUAY"],
-                                    onChanged: (v) => setState(() => _selProvNac = v),
-                                    validator: (v) => v == null ? "Selecciona provincia" : null,
+                                    items: const [
+                                      "GUAYAS",
+                                      "PICHINCHA",
+                                      "AZUAY",
+                                    ],
+                                    onChanged: (v) =>
+                                        setState(() => _selProvNac = v),
+                                    validator: (v) => v == null
+                                        ? "Selecciona provincia"
+                                        : null,
                                   ),
                                 ),
                                 const SizedBox(width: _gapH),
@@ -400,9 +437,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Ciudad",
                                     value: _selCiudadNac,
                                     icon: Icons.location_city_rounded,
-                                    items: const ["GUAYAQUIL", "QUITO", "CUENCA"],
-                                    onChanged: (v) => setState(() => _selCiudadNac = v),
-                                    validator: (v) => v == null ? "Selecciona ciudad" : null,
+                                    items: const [
+                                      "GUAYAQUIL",
+                                      "QUITO",
+                                      "CUENCA",
+                                    ],
+                                    onChanged: (v) =>
+                                        setState(() => _selCiudadNac = v),
+                                    validator: (v) =>
+                                        v == null ? "Selecciona ciudad" : null,
                                   ),
                                 ),
                               ],
@@ -416,7 +459,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _SectionCard(
                         expanded: _expanded.contains("contact"),
                         onToggle: () => setState(() {
-                          _expanded.contains("contact") ? _expanded.remove("contact") : _expanded.add("contact");
+                          _expanded.contains("contact")
+                              ? _expanded.remove("contact")
+                              : _expanded.add("contact");
                         }),
                         title: "Información personal y contacto",
                         icon: Icons.contact_page_rounded,
@@ -429,9 +474,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     label: "Estado civil",
                                     value: _selEstadoCivil,
                                     icon: Icons.favorite_rounded,
-                                    items: const ["Soltero(a)", "Casado(a)", "Divorciado(a)"],
-                                    onChanged: (v) => setState(() => _selEstadoCivil = v),
-                                    validator: (v) => v == null ? "Selecciona estado civil" : null,
+                                    items: const [
+                                      "Soltero(a)",
+                                      "Casado(a)",
+                                      "Divorciado(a)",
+                                    ],
+                                    onChanged: (v) =>
+                                        setState(() => _selEstadoCivil = v),
+                                    validator: (v) => v == null
+                                        ? "Selecciona estado civil"
+                                        : null,
                                   ),
                                 ),
                                 const SizedBox(width: _gapH),
@@ -441,8 +493,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     value: _selSexo,
                                     icon: Icons.wc_rounded,
                                     items: const ["Masculino", "Femenino"],
-                                    onChanged: (v) => setState(() => _selSexo = v),
-                                    validator: (v) => v == null ? "Selecciona sexo" : null,
+                                    onChanged: (v) =>
+                                        setState(() => _selSexo = v),
+                                    validator: (v) =>
+                                        v == null ? "Selecciona sexo" : null,
                                   ),
                                 ),
                               ],
@@ -517,9 +571,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               label: "Etnia",
                               value: _selEtnia,
                               icon: Icons.groups_rounded,
-                              items: const ["Mestizo", "Blanco", "Afroecuatoriano", "Indígena"],
+                              items: const [
+                                "Mestizo",
+                                "Blanco",
+                                "Afroecuatoriano",
+                                "Indígena",
+                              ],
                               onChanged: (v) => setState(() => _selEtnia = v),
-                              validator: (v) => v == null ? "Selecciona etnia" : null,
+                              validator: (v) =>
+                                  v == null ? "Selecciona etnia" : null,
                             ),
                           ],
                         ),
@@ -530,7 +590,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _SectionCard(
                         expanded: _expanded.contains("discap"),
                         onToggle: () => setState(() {
-                          _expanded.contains("discap") ? _expanded.remove("discap") : _expanded.add("discap");
+                          _expanded.contains("discap")
+                              ? _expanded.remove("discap")
+                              : _expanded.add("discap");
                         }),
                         title: "Discapacidad",
                         icon: Icons.accessible_rounded,
@@ -540,14 +602,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               label: "Tipo de discapacidad",
                               value: _selDiscapTipo,
                               icon: Icons.accessibility_new_rounded,
-                              items: const ["Ninguna", "Física", "Auditiva", "Visual"],
-                              onChanged: (v) => setState(() => _selDiscapTipo = v),
-                              validator: (v) => v == null ? "Selecciona una opción" : null,
+                              items: const [
+                                "Ninguna",
+                                "Física",
+                                "Auditiva",
+                                "Visual",
+                              ],
+                              onChanged: (v) =>
+                                  setState(() => _selDiscapTipo = v),
+                              validator: (v) =>
+                                  v == null ? "Selecciona una opción" : null,
                             ),
                             const SizedBox(height: _gap),
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 250),
-                              child: (_selDiscapTipo != null && _selDiscapTipo != "Ninguna")
+                              child:
+                                  (_selDiscapTipo != null &&
+                                      _selDiscapTipo != "Ninguna")
                                   ? _Field.text(
                                       key: const ValueKey("porc"),
                                       label: "Porcentaje (%)",
@@ -557,7 +628,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       validator: _percent,
                                       helperText: "Ej: 30 (0 a 100)",
                                     )
-                                  : const SizedBox.shrink(key: ValueKey("none")),
+                                  : const SizedBox.shrink(
+                                      key: ValueKey("none"),
+                                    ),
                             ),
                           ],
                         ),
@@ -568,7 +641,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _SectionCard(
                         expanded: _expanded.contains("address"),
                         onToggle: () => setState(() {
-                          _expanded.contains("address") ? _expanded.remove("address") : _expanded.add("address");
+                          _expanded.contains("address")
+                              ? _expanded.remove("address")
+                              : _expanded.add("address");
                         }),
                         title: "Dirección domiciliaria",
                         icon: Icons.home_rounded,
@@ -605,9 +680,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: _cardBorder.withOpacity(.9))),
+              border: Border(
+                top: BorderSide(color: cardBorderC.withOpacity(.9)),
+              ),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(.06), blurRadius: 20, offset: const Offset(0, -8)),
+                BoxShadow(
+                  color: Colors.black.withOpacity(.06),
+                  blurRadius: 20,
+                  offset: const Offset(0, -8),
+                ),
               ],
             ),
             child: Row(
@@ -621,7 +702,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       foregroundColor: Colors.redAccent,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       side: const BorderSide(color: Colors.redAccent),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
                   ),
                 ),
@@ -632,10 +715,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     icon: const Icon(Icons.check_rounded),
                     label: const Text("Guardar"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _primary,
+                      backgroundColor: primaryC,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
                   ),
                 ),
@@ -685,7 +770,11 @@ class _HeaderBackground extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: Colors.white.withOpacity(.20)),
                   ),
-                  child: const Icon(Icons.person_rounded, color: Colors.white, size: 22),
+                  child: const Icon(
+                    Icons.person_rounded,
+                    color: Colors.white,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -708,7 +797,10 @@ class _HeaderBackground extends StatelessWidget {
                         subtitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white.withOpacity(.85), fontSize: 12),
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.85),
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -750,7 +842,11 @@ class _SectionCard extends StatelessWidget {
         border: Border.all(color: _cardBorder),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(.04), blurRadius: 22, offset: const Offset(0, 10)),
+          BoxShadow(
+            color: Colors.black.withOpacity(.04),
+            blurRadius: 22,
+            offset: const Offset(0, 10),
+          ),
         ],
       ),
       child: Column(
@@ -775,7 +871,11 @@ class _SectionCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       title,
-                      style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13.2, letterSpacing: .2),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13.2,
+                        letterSpacing: .2,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -798,13 +898,18 @@ class _SectionCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(14, 10, 14, 16), // ✅ top extra
               child: Column(
                 children: [
-                  Container(height: 1, color: _cardBorder.withOpacity(.9)), // separador visual
+                  Container(
+                    height: 1,
+                    color: _cardBorder.withOpacity(.9),
+                  ), // separador visual
                   const SizedBox(height: 12), // ✅ aire antes del primer campo
                   child,
                 ],
               ),
             ),
-            crossFadeState: expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: expanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
           ),
         ],
       ),

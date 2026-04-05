@@ -3,16 +3,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proto_segui/utils/colores.dart';
 
 import '../../network/ug_client.dart';
 
+import '../../routes/pages.dart';
 import 'forgot_password_screen.dart';
 import 'register_company_screen.dart';
 import 'register_professional_screen.dart';
-import 'login_gateway_screen.dart';
-
-import '../professional/professional_main_screen.dart';
-import '../company/company_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final String role;
@@ -22,19 +20,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-// ✅ 2 controllers => TickerProviderStateMixin
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
-  static const Color _bgTop = Color(0xFFF7FAFF);
-  static const Color _bgBottom = Color(0xFFF2F6FF);
-  static const Color _ink = Color(0xFF0F172A);
-  static const Color _muted = Color(0xFF64748B);
-  static const Color _primary = Color(0xFF0B7BFF);
-  static const Color _border = Color(0xFFE6EEF8);
-
-  // Tono suave para el loader (azul/celeste/blanco)
-  static const Color _softBlue = Color(0xFF4FA8FF);
-  static const Color _softSky = Color(0xFFBFE9FF);
-
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   late final AnimationController _bgCtrl;
   late final AnimationController _loadingCtrl;
 
@@ -56,10 +43,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _bgCtrl = AnimationController(vsync: this, duration: const Duration(seconds: 12))
-      ..repeat();
-    _loadingCtrl =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    _bgCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 12),
+    )..repeat();
+    _loadingCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
   }
 
   @override
@@ -71,12 +62,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     super.dispose();
   }
 
-  // ✅ Regresar al Gateway (NUNCA usar decodedLogin aquí)
   void _goBack() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const LoginGatewayScreen()),
-    );
+    Navigator.pushReplacementNamed(context, APPpages.inicio);
   }
 
   Future<void> _login() async {
@@ -109,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     try {
       final tipo = _isEmployer ? 'E' : 'I';
 
-      // ✅ Capturar respuesta de login para pasarla al main screen
+      // Respuesta de login para pasarla al main screen
       final loginData = await UgClient.instance.loginSesion(
         username: username,
         password: password,
@@ -126,14 +113,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       _bgCtrl.repeat();
 
       if (_isEmployer) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const CompanyMainScreen()),
-        );
+        Navigator.pushReplacementNamed(context, APPpages.institucionHome);
       } else {
-        Navigator.pushReplacement(
+        Navigator.pushReplacementNamed(
           context,
-          MaterialPageRoute(builder: (_) => ProfessionalMainScreen(loginData: loginData)),
+          APPpages.estudianteHome,
+          arguments: loginData,
         );
       }
     } catch (e) {
@@ -150,7 +135,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           content: Text(e.toString()),
           backgroundColor: Colors.red[700],
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -168,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     final maxCardW = min(720.0, w - (padX * 2));
     final logoH = ((w < 360 ? 92.0 : 110.0) * s).clamp(84.0, 170.0);
 
-    final title = _isEmployer ? "Empleadores" : "Bolsa de prácticas pre profesionales, pasantías y empleo";
+    final title = _isEmployer
+        ? "Empleadores"
+        : "Bolsa de prácticas pre profesionales, pasantías y empleo";
     final subtitle = "Por favor ingresa las credenciales de acceso";
 
     Offset meshParallax(double t) {
@@ -186,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [_bgTop, _bgBottom],
+                  colors: [backgroundC, backgroundC],
                 ),
               ),
             ),
@@ -208,7 +197,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 child: Column(
                   children: [
                     SizedBox(height: 10 * s),
-                    Image.asset('assets/UG.png', height: logoH, fit: BoxFit.contain),
+                    Image.asset(
+                      'assets/UG.png',
+                      height: logoH,
+                      fit: BoxFit.contain,
+                    ),
                     SizedBox(height: 18 * s),
                     ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxCardW),
@@ -221,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                             decoration: BoxDecoration(
                               color: Colors.white.withAlpha(240),
                               borderRadius: BorderRadius.circular(22 * s),
-                              border: Border.all(color: _border),
+                              border: Border.all(color: borderC),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withAlpha(26),
@@ -230,7 +223,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 ),
                               ],
                             ),
-                            padding: EdgeInsets.fromLTRB(20 * s, 18 * s, 20 * s, 18 * s),
+                            padding: EdgeInsets.fromLTRB(
+                              20 * s,
+                              18 * s,
+                              20 * s,
+                              18 * s,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -240,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   style: TextStyle(
                                     fontSize: (_isEmployer ? 22 : 18) * s,
                                     fontWeight: FontWeight.w900,
-                                    color: _ink,
+                                    color: textDarkC,
                                     height: 1.15,
                                   ),
                                 ),
@@ -251,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   style: TextStyle(
                                     fontSize: 12.5 * s,
                                     fontWeight: FontWeight.w700,
-                                    color: _muted,
+                                    color: textMutedC,
                                   ),
                                 ),
                                 SizedBox(height: 18 * s),
@@ -297,9 +295,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   obscureText: _obscure,
                                   enabled: !_loading,
                                   trailing: IconButton(
-                                    onPressed: _loading ? null : () => setState(() => _obscure = !_obscure),
-                                    icon: Icon(_obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                                    color: _muted,
+                                    onPressed: _loading
+                                        ? null
+                                        : () => setState(
+                                            () => _obscure = !_obscure,
+                                          ),
+                                    icon: Icon(
+                                      _obscure
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                    ),
+                                    color: generalGray,
                                   ),
                                 ),
 
@@ -309,15 +315,22 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   height: 48 * s,
                                   child: FilledButton(
                                     style: FilledButton.styleFrom(
-                                      backgroundColor: _primary,
+                                      backgroundColor: primaryC,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12 * s),
+                                        borderRadius: BorderRadius.circular(
+                                          12 * s,
+                                        ),
                                       ),
                                     ),
                                     onPressed: _loading ? null : _login,
                                     child: Text(
-                                      _loading ? "Conectando..." : "Iniciar Sesión",
-                                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14 * s),
+                                      _loading
+                                          ? "Conectando..."
+                                          : "Iniciar Sesión",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 14 * s,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -330,9 +343,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       onTap: _loading
                                           ? null
                                           : () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const ForgotPasswordScreen(),
                                               ),
+                                            ),
                                       child: Text(
                                         "¿Olvidaste la contraseña?",
                                         style: TextStyle(
@@ -349,9 +365,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       onTap: _loading
                                           ? null
                                           : () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (_) => const RegisterCompanyScreen()),
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const RegisterCompanyScreen(),
                                               ),
+                                            ),
                                       child: Text(
                                         "¿No tienes una cuenta? Regístrate aquí",
                                         style: TextStyle(
@@ -371,9 +390,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   child: TextButton(
                                     onPressed: _loading ? null : _goBack,
                                     style: TextButton.styleFrom(
-                                      foregroundColor: _ink,
-                                      padding: EdgeInsets.symmetric(horizontal: 14 * s, vertical: 10 * s),
-                                      textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 14 * s),
+                                      foregroundColor: textDarkC,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 14 * s,
+                                        vertical: 10 * s,
+                                      ),
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 14 * s,
+                                      ),
                                     ),
                                     child: const Text("Regresar"),
                                   ),
@@ -386,9 +411,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       onTap: _loading
                                           ? null
                                           : () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (_) => const RegisterProfessionalScreen()),
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const RegisterProfessionalScreen(),
                                               ),
+                                            ),
                                       child: Text(
                                         "¿No tienes una cuenta? Regístrate aquí",
                                         style: TextStyle(
@@ -443,17 +471,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     end: Alignment.bottomRight,
                                     colors: [
                                       Color(0xFFFFFFFF),
-                                      _softSky, // ✅ ya se usa
+                                      suaveSky, // ✅ ya se usa
                                       Color(0xFF93D0FF),
                                     ],
                                   ),
                                   border: Border.all(
-                                    color: _softBlue.withAlpha(70),
+                                    color: suaveBlue.withAlpha(70),
                                     width: 1.2,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: _softBlue.withAlpha(60),
+                                      color: suaveBlue.withAlpha(60),
                                       blurRadius: 26,
                                       spreadRadius: 2,
                                     ),
@@ -480,7 +508,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 child: CustomPaint(
                                   size: Size(56 * s, 56 * s),
                                   painter: _GradientArcPainter(
-                                    color: _softBlue,
+                                    color: suaveBlue,
                                     strokeWidth: 4 * s,
                                   ),
                                 ),
@@ -496,7 +524,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     style: TextStyle(
                                       fontSize: 20 * s,
                                       fontWeight: FontWeight.w800,
-                                      color: _ink,
+                                      color: textDarkC,
                                     ),
                                   ),
                                   SizedBox(height: 6 * s),
@@ -506,7 +534,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     style: TextStyle(
                                       fontSize: 13.5 * s,
                                       fontWeight: FontWeight.w700,
-                                      color: _muted,
+                                      color: textMutedC,
                                     ),
                                   ),
                                   SizedBox(height: 8 * s),
@@ -518,11 +546,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     style: TextStyle(
                                       fontSize: 14 * s,
                                       fontWeight: FontWeight.w600,
-                                      color: _muted,
+                                      color: textMutedC,
                                     ),
                                   ),
                                   SizedBox(height: 10 * s),
-                                  _Dots(t: t, scale: s, color: _softBlue),
+                                  _Dots(t: t, scale: s, color: suaveBlue),
                                 ],
                               ),
                             ),
@@ -545,7 +573,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       style: TextStyle(
         fontSize: 12.5 * s,
         fontWeight: FontWeight.w900,
-        color: _ink,
+        color: textDarkC,
       ),
     );
   }
@@ -598,11 +626,7 @@ class _GradientArcPainter extends CustomPainter {
     );
 
     final gradient = SweepGradient(
-      colors: [
-        color.withAlpha(40),
-        color.withAlpha(210),
-        color.withAlpha(40),
-      ],
+      colors: [color.withAlpha(40), color.withAlpha(210), color.withAlpha(40)],
       stops: const [0.0, 0.5, 1.0],
     );
 
@@ -696,12 +720,19 @@ class _InputRow extends StatelessWidget {
                   fontSize: (13.0 * s).clamp(12.0, 16.5),
                 ),
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 12 * s, vertical: 14 * s),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 12 * s,
+                  vertical: 14 * s,
+                ),
               ),
             ),
           ),
           if (trailing != null)
-            SizedBox(width: iconBox, height: iconBox, child: Center(child: trailing)),
+            SizedBox(
+              width: iconBox,
+              height: iconBox,
+              child: Center(child: trailing),
+            ),
         ],
       ),
     );
@@ -760,7 +791,9 @@ class _MeshBackgroundState extends State<_MeshBackground> {
       builder: (_, c) {
         final size = Size(c.maxWidth, c.maxHeight);
         _ensurePoints(size);
-        return CustomPaint(painter: _MeshPainter(points: _pts, parallax: widget.parallax));
+        return CustomPaint(
+          painter: _MeshPainter(points: _pts, parallax: widget.parallax),
+        );
       },
     );
   }
@@ -832,9 +865,13 @@ class _MeshPainter extends CustomPainter {
       canvas.drawCircle(p, dotRadius, dotPaint);
     }
 
-    canvas.drawRect(Offset.zero & size, Paint()..color = Colors.black.withAlpha(2));
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()..color = Colors.black.withAlpha(2),
+    );
   }
-   @override
+
+  @override
   bool shouldRepaint(covariant _MeshPainter oldDelegate) {
     return oldDelegate.parallax != parallax || oldDelegate.points != points;
   }

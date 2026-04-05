@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/vacancy.dart';
+import 'package:proto_segui/utils/colores.dart';
+import '../../../models/vacancy.dart';
 
 class CreateVacancyScreen extends StatefulWidget {
   final String companyName;
@@ -10,14 +11,6 @@ class CreateVacancyScreen extends StatefulWidget {
 }
 
 class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
-  static const Color _bg = Color(0xFFF3F7FB);
-  static const Color _ink = Color(0xFF0F172A);
-  static const Color _muted = Color(0xFF64748B);
-  static const Color _border = Color(0xFFE7EEF8);
-
-  static const Color _primary = Color(0xFF4CAAC9);
-  static const Color _primary2 = Color(0xFF60A5FA);
-
   final _formKey = GlobalKey<FormState>();
   final _titleCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
@@ -25,7 +18,12 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
   String? _location;
   String? _modality;
 
-  final List<String> _locations = const ["Guayaquil, Guayas", "Quito, Pichincha", "Cuenca, Azuay", "Remoto"];
+  final List<String> _locations = const [
+    "Guayaquil, Guayas",
+    "Quito, Pichincha",
+    "Cuenca, Azuay",
+    "Remoto",
+  ];
   final List<String> _modalities = const ["Presencial", "Híbrido", "Remoto"];
 
   @override
@@ -57,21 +55,30 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
     return Theme(
       data: Theme.of(context).copyWith(
         useMaterial3: true,
-        scaffoldBackgroundColor: _bg,
-        colorScheme: ColorScheme.fromSeed(seedColor: _primary),
+        scaffoldBackgroundColor: backgroundC,
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryC),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.white,
-          labelStyle: const TextStyle(color: _muted, fontWeight: FontWeight.w700),
-          floatingLabelStyle: const TextStyle(color: _primary, fontWeight: FontWeight.w900),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          fillColor: generalWhite,
+          labelStyle: const TextStyle(
+            color: textMutedC,
+            fontWeight: FontWeight.w700,
+          ),
+          floatingLabelStyle: const TextStyle(
+            color: primaryC,
+            fontWeight: FontWeight.w900,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 14,
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _border),
+            borderSide: const BorderSide(color: borderC),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _primary, width: 1.6),
+            borderSide: const BorderSide(color: primaryC, width: 1.6),
           ),
         ),
       ),
@@ -90,18 +97,34 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: _border),
+                      border: Border.all(color: borderC),
                       boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(.04), blurRadius: 20, offset: const Offset(0, 10)),
+                        BoxShadow(
+                          color: generalDark.withOpacity(.04),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
                       ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Crea una vacante", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: _ink)),
+                        const Text(
+                          "Crea una vacante",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: textDarkC,
+                          ),
+                        ),
                         const SizedBox(height: 6),
-                        const Text("Título claro + buena descripción = más postulaciones.",
-                            style: TextStyle(color: _muted, fontWeight: FontWeight.w600)),
+                        const Text(
+                          "Título claro + buena descripción = más postulaciones.",
+                          style: TextStyle(
+                            color: textMutedC,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 16),
 
                         TextFormField(
@@ -112,8 +135,10 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                             prefixIcon: Icon(Icons.badge_rounded),
                           ),
                           validator: (v) {
-                            if (v == null || v.trim().isEmpty) return "Ingresa un título";
-                            if (v.trim().length < 6) return "El título es muy corto";
+                            if (v == null || v.trim().isEmpty)
+                              return "Ingresa un título";
+                            if (v.trim().length < 6)
+                              return "El título es muy corto";
                             return null;
                           },
                         ),
@@ -126,9 +151,16 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                             labelText: "Ubicación",
                             prefixIcon: Icon(Icons.location_on_rounded),
                           ),
-                          items: _locations.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                          items: _locations
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
                           onChanged: (v) => setState(() => _location = v),
-                          validator: (v) => (v == null || v.isEmpty) ? "Selecciona una ubicación" : null,
+                          validator: (v) => (v == null || v.isEmpty)
+                              ? "Selecciona una ubicación"
+                              : null,
                         ),
                         const SizedBox(height: 14),
 
@@ -139,9 +171,16 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                             labelText: "Modalidad",
                             prefixIcon: Icon(Icons.laptop_mac_rounded),
                           ),
-                          items: _modalities.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                          items: _modalities
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
                           onChanged: (v) => setState(() => _modality = v),
-                          validator: (v) => (v == null || v.isEmpty) ? "Selecciona una modalidad" : null,
+                          validator: (v) => (v == null || v.isEmpty)
+                              ? "Selecciona una modalidad"
+                              : null,
                         ),
                         const SizedBox(height: 14),
 
@@ -151,15 +190,18 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                           maxLines: 7,
                           decoration: const InputDecoration(
                             labelText: "Descripción",
-                            hintText: "Responsabilidades, requisitos, beneficios...",
+                            hintText:
+                                "Responsabilidades, requisitos, beneficios...",
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(bottom: 70),
                               child: Icon(Icons.subject_rounded),
                             ),
                           ),
                           validator: (v) {
-                            if (v == null || v.trim().isEmpty) return "Escribe una descripción";
-                            if (v.trim().length < 30) return "Agrega más detalle (mínimo 30 caracteres)";
+                            if (v == null || v.trim().isEmpty)
+                              return "Escribe una descripción";
+                            if (v.trim().length < 30)
+                              return "Agrega más detalle (mínimo 30 caracteres)";
                             return null;
                           },
                         ),
@@ -177,20 +219,31 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: _border.withOpacity(.95))),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(.06), blurRadius: 22, offset: const Offset(0, -10))],
+              border: Border(top: BorderSide(color: borderC.withOpacity(.95))),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.06),
+                  blurRadius: 22,
+                  offset: const Offset(0, -10),
+                ),
+              ],
             ),
             child: SizedBox(
               height: 52,
               child: FilledButton.icon(
                 onPressed: _save,
                 style: FilledButton.styleFrom(
-                  backgroundColor: _primary,
+                  backgroundColor: primaryC,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
                 icon: const Icon(Icons.save_rounded),
-                label: const Text("Guardar vacante", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5)),
+                label: const Text(
+                  "Guardar vacante",
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5),
+                ),
               ),
             ),
           ),
@@ -204,14 +257,18 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
       pinned: true,
       elevation: 0,
       scrolledUnderElevation: 10,
-      backgroundColor: _bg,
-      surfaceTintColor: _bg,
+      backgroundColor: backgroundC,
+      surfaceTintColor: backgroundC,
       automaticallyImplyLeading: false,
       expandedHeight: 92,
       collapsedHeight: 92,
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [_primary, _primary2]),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [secondaryC, secondary2C],
+          ),
         ),
         child: SafeArea(
           bottom: false,
@@ -219,7 +276,10 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
             child: Row(
               children: [
-                _RoundIconButton(icon: Icons.arrow_back_rounded, onTap: () => Navigator.pop(context)),
+                _RoundIconButton(
+                  icon: Icons.arrow_back_rounded,
+                  onTap: () => Navigator.pop(context),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Center(
@@ -227,7 +287,11 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                       "Crear Vacante",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.white.withOpacity(.96), fontWeight: FontWeight.w900, fontSize: 17),
+                      style: TextStyle(
+                        color: generalWhite.withOpacity(.96),
+                        fontWeight: FontWeight.w900,
+                        fontSize: 17,
+                      ),
                     ),
                   ),
                 ),
@@ -236,7 +300,11 @@ class _CreateVacancyScreenState extends State<CreateVacancyScreen> {
                   icon: Icons.info_outline_rounded,
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Completa el formulario y guarda la vacante.")),
+                      const SnackBar(
+                        content: Text(
+                          "Completa el formulario y guarda la vacante.",
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -258,7 +326,7 @@ class _RoundIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withOpacity(.16),
+      color: generalWhite.withOpacity(.16),
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
@@ -268,9 +336,9 @@ class _RoundIconButton extends StatelessWidget {
           height: 44,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.white.withOpacity(.22)),
+            border: Border.all(color: generalWhite.withOpacity(.22)),
           ),
-          child: Icon(icon, color: Colors.white),
+          child: Icon(icon, color: generalWhite),
         ),
       ),
     );

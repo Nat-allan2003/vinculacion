@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proto_segui/data/controllers/ofertas_trabajo_data.dart';
+import 'package:proto_segui/data/institucion_controllers/ofertas_trabajo_data.dart';
+import 'package:proto_segui/utils/colores.dart';
 
 class PublicarOfertaScreen extends StatefulWidget {
   const PublicarOfertaScreen({super.key});
@@ -10,12 +11,6 @@ class PublicarOfertaScreen extends StatefulWidget {
 
 class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
   final OfertasTrabajoData _controller = OfertasTrabajoData();
-
-  static const Color _bg = Color(0xFFF4F6FA);
-  static const Color _primary = Color(0xFF2563EB);
-  static const Color _textPrimary = Color(0xFF1E293B);
-  static const Color _textSecondary = Color(0xFF64748B);
-  static const Color _border = Color(0xFFE2E8F0);
 
   @override
   void dispose() {
@@ -45,18 +40,18 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: backgroundC,
       appBar: AppBar(
         title: const Text(
           "Publicación de oferta",
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
         ),
         backgroundColor: Colors.white,
-        foregroundColor: _textPrimary,
+        foregroundColor: textDarkC,
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: _border),
+          child: Container(height: 1, color: borderC),
         ),
       ),
       body: AnimatedBuilder(
@@ -69,10 +64,10 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: _border),
+                border: Border.all(color: borderC),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.02),
+                    color: Colors.black.withValues(alpha: .02),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -175,8 +170,8 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: _controller.expiracion == null
-                                          ? _border
-                                          : _primary,
+                                          ? borderC
+                                          : primaryC,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -190,14 +185,14 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                                         ),
                                         style: TextStyle(
                                           color: _controller.expiracion == null
-                                              ? _textSecondary
-                                              : _textPrimary,
+                                              ? textMutedC
+                                              : textDarkC,
                                         ),
                                       ),
                                       const Icon(
                                         Icons.calendar_today_rounded,
                                         size: 18,
-                                        color: _textSecondary,
+                                        color: textMutedC,
                                       ),
                                     ],
                                   ),
@@ -213,7 +208,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                             children: [
                               _buildLabel("# de Postulantes", required: true),
                               DropdownButtonFormField<int>(
-                                value: _controller.numPostulantes,
+                                initialValue: _controller.numPostulantes,
                                 decoration: _inputDecoration(""),
                                 items: _controller.postulantesOpciones
                                     .map(
@@ -238,11 +233,11 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _primary.withOpacity(0.5),
+                          color: primaryC.withValues(alpha: 0.5),
                           style: BorderStyle.solid,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        color: _primary.withOpacity(0.02),
+                        color: primaryC.withValues(alpha: 0.02),
                       ),
                       child: Row(
                         children: [
@@ -263,7 +258,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                               _buildLabel("Salario"),
                               DropdownButtonFormField<String>(
                                 isExpanded: true,
-                                value: _controller.salario,
+                                initialValue: _controller.salario,
                                 decoration: _inputDecoration("SELECCIONE"),
                                 items: _controller.salarios
                                     .map(
@@ -285,7 +280,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                             children: [
                               _buildLabel("Modalidad", required: true),
                               DropdownButtonFormField<String>(
-                                value: _controller.modalidad,
+                                initialValue: _controller.modalidad,
                                 decoration: _inputDecoration("SELECCIONE"),
                                 items: _controller.modalidades
                                     .map(
@@ -315,7 +310,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                             children: [
                               _buildLabel("Estado Vacante", required: true),
                               DropdownButtonFormField<String>(
-                                value: _controller.estadoVacante,
+                                initialValue: _controller.estadoVacante,
                                 decoration: _inputDecoration(""),
                                 items: _controller.estados
                                     .map(
@@ -347,7 +342,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                               onChanged: _controller.toggleExperiencia,
                               controlAffinity: ListTileControlAffinity.leading,
                               contentPadding: EdgeInsets.zero,
-                              activeColor: _primary,
+                              activeColor: primaryC,
                             ),
                           ),
                         ),
@@ -362,7 +357,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                       child: FilledButton(
                         onPressed: _onSave,
                         style: FilledButton.styleFrom(
-                          backgroundColor: _primary,
+                          backgroundColor: primaryC,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -393,7 +388,7 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
         text: TextSpan(
           text: text,
           style: const TextStyle(
-            color: _textPrimary,
+            color: textDarkC,
             fontSize: 13,
             fontWeight: FontWeight.bold,
           ),
@@ -413,21 +408,21 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(fontSize: 12, color: _textSecondary),
+      hintStyle: const TextStyle(fontSize: 12, color: textMutedC),
       filled: true,
       fillColor: Colors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _border),
+        borderSide: const BorderSide(color: borderC),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _border),
+        borderSide: const BorderSide(color: borderC),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _primary),
+        borderSide: const BorderSide(color: primaryC),
       ),
       errorStyle: const TextStyle(height: 0),
     );
@@ -447,13 +442,13 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: _textSecondary,
+              color: textMutedC,
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             decoration: BoxDecoration(
-              border: Border.all(color: _border),
+              border: Border.all(color: borderC),
               borderRadius: BorderRadius.circular(6),
               color: Colors.white,
             ),
@@ -463,14 +458,14 @@ class _PublicarOfertaScreenState extends State<PublicarOfertaScreen> {
                   _controller.formatTime(time),
                   style: TextStyle(
                     fontSize: 13,
-                    color: time == null ? _textSecondary : _textPrimary,
+                    color: time == null ? textMutedC : textDarkC,
                   ),
                 ),
                 const SizedBox(width: 4),
                 const Icon(
                   Icons.access_time_rounded,
                   size: 14,
-                  color: _textSecondary,
+                  color: textMutedC,
                 ),
               ],
             ),

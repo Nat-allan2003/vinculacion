@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proto_segui/data/controllers/editar_oferta.dart';
+import 'package:proto_segui/data/institucion_controllers/editar_oferta.dart';
+import 'package:proto_segui/utils/colores.dart';
 
 class EditarOfertaScreen extends StatefulWidget {
   final dynamic offer;
@@ -13,16 +14,9 @@ class EditarOfertaScreen extends StatefulWidget {
 class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
   final EditarOferta _controller = EditarOferta();
 
-  static const Color _bg = Color(0xFFF4F6FA);
-  static const Color _primary = Color(0xFF2563EB);
-  static const Color _textPrimary = Color(0xFF1E293B);
-  static const Color _textSecondary = Color(0xFF64748B);
-  static const Color _border = Color(0xFFE2E8F0);
-
   @override
   void initState() {
     super.initState();
-    // Llenamos el formulario con los datos de la oferta que recibimos
     _controller.initData(widget.offer);
   }
 
@@ -54,18 +48,18 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: backgroundC,
       appBar: AppBar(
         title: const Text(
           "Editar oferta",
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
         ),
         backgroundColor: Colors.white,
-        foregroundColor: _textPrimary,
+        foregroundColor: primaryC,
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: _border),
+          child: Container(height: 1, color: borderC),
         ),
       ),
       body: AnimatedBuilder(
@@ -79,7 +73,7 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: _border),
+                border: Border.all(color: borderC),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.02),
@@ -187,8 +181,8 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: _controller.expiracion == null
-                                          ? _border
-                                          : _primary,
+                                          ? borderC
+                                          : primaryC,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -202,14 +196,14 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
                                         ),
                                         style: TextStyle(
                                           color: _controller.expiracion == null
-                                              ? _textSecondary
-                                              : _textPrimary,
+                                              ? textMutedC
+                                              : textDarkC,
                                         ),
                                       ),
                                       const Icon(
                                         Icons.calendar_today_rounded,
                                         size: 18,
-                                        color: _textSecondary,
+                                        color: textMutedC,
                                       ),
                                     ],
                                   ),
@@ -252,11 +246,11 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _primary.withOpacity(0.5),
+                          color: primaryC.withOpacity(0.5),
                           style: BorderStyle.solid,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        color: _primary.withOpacity(0.02),
+                        color: primaryC.withOpacity(0.02),
                       ),
                       child: Row(
                         children: [
@@ -363,7 +357,7 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
                               onChanged: _controller.toggleExperiencia,
                               controlAffinity: ListTileControlAffinity.leading,
                               contentPadding: EdgeInsets.zero,
-                              activeColor: _primary,
+                              activeColor: primaryC,
                             ),
                           ),
                         ),
@@ -384,10 +378,12 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border(top: BorderSide(color: _border.withOpacity(.95))),
+            border: Border(
+              top: BorderSide(color: borderC.withValues(alpha: .95)),
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(.06),
+                color: Colors.black.withValues(alpha: .06),
                 blurRadius: 22,
                 offset: const Offset(0, -10),
               ),
@@ -398,7 +394,7 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
             child: FilledButton.icon(
               onPressed: _onSaveChanges,
               style: FilledButton.styleFrom(
-                backgroundColor: _primary, // Azul principal de la app
+                backgroundColor: primaryC,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -423,7 +419,7 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
         text: TextSpan(
           text: text,
           style: const TextStyle(
-            color: _textPrimary,
+            color: textDarkC,
             fontSize: 13,
             fontWeight: FontWeight.bold,
           ),
@@ -443,21 +439,21 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(fontSize: 12, color: _textSecondary),
+      hintStyle: const TextStyle(fontSize: 12, color: textMutedC),
       filled: true,
       fillColor: Colors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _border),
+        borderSide: const BorderSide(color: borderC),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _border),
+        borderSide: const BorderSide(color: borderC),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: _primary),
+        borderSide: const BorderSide(color: primaryC),
       ),
     );
   }
@@ -476,13 +472,13 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: _textSecondary,
+              color: textMutedC,
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             decoration: BoxDecoration(
-              border: Border.all(color: _border),
+              border: Border.all(color: borderC),
               borderRadius: BorderRadius.circular(6),
               color: Colors.white,
             ),
@@ -492,14 +488,14 @@ class _EditarOfertaScreenState extends State<EditarOfertaScreen> {
                   _controller.formatTime(time),
                   style: TextStyle(
                     fontSize: 13,
-                    color: time == null ? _textSecondary : _textPrimary,
+                    color: time == null ? textMutedC : textDarkC,
                   ),
                 ),
                 const SizedBox(width: 4),
                 const Icon(
                   Icons.access_time_rounded,
                   size: 14,
-                  color: _textSecondary,
+                  color: textMutedC,
                 ),
               ],
             ),

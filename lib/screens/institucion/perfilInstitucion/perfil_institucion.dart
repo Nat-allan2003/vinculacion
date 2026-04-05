@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proto_segui/data/controllers/institucion_perfil_data.dart';
+import 'package:proto_segui/data/institucion_controllers/institucion_perfil_data.dart';
 import 'package:proto_segui/models/institucion_perfil.dart';
+import 'package:proto_segui/utils/colores.dart';
 
 class PerfilInstitucion extends StatefulWidget {
   final InstitucionPerfil? initialData;
@@ -13,12 +14,6 @@ class PerfilInstitucion extends StatefulWidget {
 
 class _PerfilInstitucionState extends State<PerfilInstitucion> {
   final InstitucionPerfilData _controller = InstitucionPerfilData();
-
-  static const Color _bg = Color(0xFFF4F6FA);
-  static const Color _primary = Color(0xFF2563EB);
-  static const Color _primary2 = Color(0xFF60A5FA);
-  static const Color _cardBorder = Color(0xFFE7EEF8);
-  static const Color _muted = Color(0xFF64748B);
 
   @override
   void initState() {
@@ -35,30 +30,30 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: _bg,
-        colorScheme: ColorScheme.fromSeed(seedColor: _primary),
+        scaffoldBackgroundColor: backgroundC,
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryC),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
-          hintStyle: const TextStyle(color: _muted),
-          labelStyle: const TextStyle(color: _muted),
+          hintStyle: const TextStyle(color: textMutedC),
+          labelStyle: const TextStyle(color: textMutedC),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 16,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _cardBorder),
+            borderSide: const BorderSide(color: cardBorderC),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _cardBorder),
+            borderSide: const BorderSide(color: cardBorderC),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: _primary, width: 1.6),
+            borderSide: const BorderSide(color: primaryC, width: 1.6),
           ),
         ),
       ),
@@ -72,17 +67,23 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
                 SliverAppBar(
                   pinned: true,
                   elevation: 0,
-                  backgroundColor: _primary,
+                  backgroundColor: primaryC,
                   foregroundColor: Colors.white,
                   expandedHeight: 145,
                   collapsedHeight: 72,
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: generalWhite,
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                   title: const Text(
                     "Perfil de Institución",
-                    style: TextStyle(fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: generalWhite,
+                    ),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.pin,
@@ -115,14 +116,14 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
                                       color: Colors.white,
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: _cardBorder,
+                                        color: cardBorderC,
                                         width: 4,
                                       ),
                                     ),
                                     child: Icon(
                                       Icons.business_rounded,
                                       size: 50,
-                                      color: _muted.withOpacity(0.5),
+                                      color: textMutedC.withValues(alpha: 0.5),
                                     ),
                                   ),
                                   Positioned(
@@ -131,7 +132,7 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
                                     child: Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: const BoxDecoration(
-                                        color: _primary,
+                                        color: primaryC,
                                         shape: BoxShape.circle,
                                       ),
                                       child: const Icon(
@@ -357,11 +358,11 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
-                top: BorderSide(color: _cardBorder.withOpacity(.9)),
+                top: BorderSide(color: cardBorderC.withValues(alpha: .9)),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(.06),
+                  color: Colors.black.withValues(alpha: .06),
                   blurRadius: 20,
                   offset: const Offset(0, -8),
                 ),
@@ -391,7 +392,7 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
                     icon: const Icon(Icons.check_rounded),
                     label: const Text("Guardar"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _primary,
+                      backgroundColor: primaryC,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -419,7 +420,10 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontWeight: FontWeight.w600, color: _muted),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: textMutedC,
+          ),
         ),
         const SizedBox(height: 6),
         InkWell(
@@ -428,7 +432,7 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              border: Border.all(color: _cardBorder),
+              border: Border.all(color: cardBorderC),
               borderRadius: BorderRadius.circular(16),
               color: Colors.white,
             ),
@@ -438,19 +442,19 @@ class _PerfilInstitucionState extends State<PerfilInstitucion> {
                   fileName != null
                       ? Icons.picture_as_pdf_rounded
                       : Icons.attach_file_rounded,
-                  color: _muted,
+                  color: textMutedC,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     fileName ?? "Ningún archivo seleccionado...",
                     style: TextStyle(
-                      color: fileName != null ? Colors.black87 : _muted,
+                      color: fileName != null ? Colors.black87 : textMutedC,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
-                const Icon(Icons.file_upload_outlined, color: _primary),
+                const Icon(Icons.file_upload_outlined, color: primaryC),
               ],
             ),
           ),
@@ -487,9 +491,9 @@ class _HeaderBackground extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.18),
+                    color: Colors.white.withValues(alpha: .18),
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.white.withOpacity(.20)),
+                    border: Border.all(color: borderC.withValues(alpha: .20)),
                   ),
                   child: const Icon(
                     Icons.apartment_rounded,
@@ -508,7 +512,7 @@ class _HeaderBackground extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(.95),
+                          color: textLightC.withValues(alpha: .95),
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
                         ),
@@ -519,7 +523,7 @@ class _HeaderBackground extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(.85),
+                          color: textLightC.withValues(alpha: .85),
                           fontSize: 12,
                         ),
                       ),
@@ -559,7 +563,7 @@ class _SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.04),
+            color: Colors.black.withValues(alpha: .04),
             blurRadius: 22,
             offset: const Offset(0, 10),
           ),
@@ -578,10 +582,10 @@ class _SectionCard extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2563EB).withOpacity(.10),
+                      color: primaryC.withValues(alpha: .10),
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Icon(icon, color: const Color(0xFF2563EB)),
+                    child: Icon(icon, color: primaryC),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -614,7 +618,7 @@ class _SectionCard extends StatelessWidget {
                 children: [
                   Container(
                     height: 1,
-                    color: const Color(0xFFE7EEF8).withOpacity(.9),
+                    color: cardBorderC.withValues(alpha: .9),
                   ),
                   const SizedBox(height: 12),
                   child,

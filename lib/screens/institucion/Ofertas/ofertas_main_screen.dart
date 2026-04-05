@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proto_segui/data/controllers/ofertas_data.dart';
-
-import 'package:proto_segui/screens/institucion/Ofertas/publicar_Oferta_screen.dart';
-import 'package:proto_segui/screens/institucion/perfilInstitucion/perfil_institucion.dart';
+import 'package:proto_segui/data/institucion_controllers/ofertas_data.dart';
+import 'package:proto_segui/utils/colores.dart';
+import '../../../routes/pages.dart';
 import '../../institucion/Ofertas/Widgets/widget_ofertas.dart';
 
 class OfertasMainScreen extends StatefulWidget {
@@ -21,12 +20,6 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
   final OfertasData _controller = OfertasData();
   final TextEditingController _searchCtrl = TextEditingController();
 
-  static const Color _bg = Color(0xFFF3F7FB);
-  static const Color _ink = Color(0xFF0F172A);
-  static const Color _muted = Color(0xFF64748B);
-  static const Color _border = Color(0xFFE7EEF8);
-  static const Color _primary = Color(0xFF2563EB);
-
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -37,12 +30,11 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: _bg,
-        colorScheme: ColorScheme.fromSeed(seedColor: _primary),
+        scaffoldBackgroundColor: backgroundC,
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryC),
       ),
-      // AnimatedBuilder escucha los cambios del _controller y redibuja la UI
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, _) {
@@ -154,11 +146,9 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                     const Spacer(),
                     FilledButton.icon(
                       onPressed: () async {
-                        final nuevaOferta = await Navigator.push(
+                        final nuevaOferta = await Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) => const PublicarOfertaScreen(),
-                          ),
+                          APPpages.institucionPublicarOferta,
                         );
                         if (nuevaOferta != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -195,7 +185,7 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                 Text(
                   "${_controller.foundOffers.length} resultado(s)",
                   style: const TextStyle(
-                    color: _muted,
+                    color: textMutedC,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -236,18 +226,9 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
           actions: [
             IconButton(
               tooltip: "Editar Perfil",
-              icon: const Icon(Icons.edit_rounded, color: _ink),
+              icon: const Icon(Icons.edit_rounded, color: generalDark),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const PerfilInstitucion()),
-                );
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Abriendo edición de perfil..."),
-                  ),
-                );
+                Navigator.pushNamed(context, APPpages.institucionEditarPerfil);
               },
             ),
           ],
@@ -262,14 +243,14 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [_primary, Color(0xFF60A5FA)],
+                      colors: [primaryC, Color(0xFF60A5FA)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: _primary.withOpacity(0.3),
+                        color: primaryC.withOpacity(0.3),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -287,7 +268,7 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                         child: const Icon(
                           Icons.account_balance_rounded,
                           size: 40,
-                          color: _primary,
+                          color: primaryC,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -367,17 +348,17 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: _border),
+        border: Border.all(color: borderC),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _bg,
+              color: backgroundC,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: _ink),
+            child: Icon(icon, color: generalDark),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -388,18 +369,22 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
                   title,
                   style: const TextStyle(
                     fontWeight: FontWeight.w900,
-                    color: _ink,
+                    color: generalDark,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: const TextStyle(color: _muted, fontSize: 12),
+                  style: const TextStyle(color: textMutedC, fontSize: 12),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: _muted),
+          const Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 16,
+            color: textMutedC,
+          ),
         ],
       ),
     );
@@ -414,13 +399,13 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
       pinned: true,
       elevation: 0,
       scrolledUnderElevation: 8,
-      backgroundColor: _bg,
-      surfaceTintColor: _bg,
+      backgroundColor: backgroundC,
+      surfaceTintColor: backgroundC,
       shadowColor: Colors.black.withOpacity(.12),
       titleSpacing: 16,
       title: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.w900, color: _ink),
+        style: const TextStyle(fontWeight: FontWeight.w900, color: generalDark),
       ),
       actions: [
         ...actions,
@@ -428,7 +413,7 @@ class _InstitutionMainScreenState extends State<OfertasMainScreen> {
       ], // <--- Agregamos las acciones aquí
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Container(height: 1, color: _border),
+        child: Container(height: 1, color: borderC),
       ),
     );
   }

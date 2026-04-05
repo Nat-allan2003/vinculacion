@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/vacancy.dart';
+import '../../../models/vacancy.dart';
 
 class EditVacancyScreen extends StatefulWidget {
   final Vacancy vacancy;
@@ -20,12 +20,16 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.vacancy.title);
-    _descriptionController = TextEditingController(text: widget.vacancy.description);
-    
-    _selectedLocation = ["Quito", "Guayaquil", "Remoto"].contains(widget.vacancy.location) 
-        ? widget.vacancy.location 
+    _descriptionController = TextEditingController(
+      text: widget.vacancy.description,
+    );
+
+    _selectedLocation =
+        ["Quito", "Guayaquil", "Remoto"].contains(widget.vacancy.location)
+        ? widget.vacancy.location
         : "Guayaquil";
-    _selectedModality = ["Presencial", "Híbrido", "Remoto"].contains(widget.vacancy.modality)
+    _selectedModality =
+        ["Presencial", "Híbrido", "Remoto"].contains(widget.vacancy.modality)
         ? widget.vacancy.modality
         : "Presencial";
   }
@@ -42,7 +46,10 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Editar Vacante", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Editar Vacante",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -62,19 +69,26 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
               controller: _titleController,
               decoration: InputDecoration(
                 hintText: "Ej. Desarrollador Backend",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 filled: true,
                 fillColor: Colors.white,
               ),
             ),
             const SizedBox(height: 20),
 
-            const Text("Ubicación", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              "Ubicación",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: _selectedLocation,
               decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 filled: true,
                 fillColor: Colors.white,
               ),
@@ -85,12 +99,17 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
             ),
             const SizedBox(height: 20),
 
-            const Text("Modalidad", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              "Modalidad",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: _selectedModality,
               decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 filled: true,
                 fillColor: Colors.white,
               ),
@@ -101,14 +120,19 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
             ),
             const SizedBox(height: 20),
 
-            const Text("Descripción", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              "Descripción",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             TextField(
               controller: _descriptionController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: "El trabajo consiste en...",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 filled: true,
                 fillColor: Colors.white,
               ),
@@ -134,7 +158,9 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
 
                   // 1. PRIMERO mostramos mensaje
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Vacante actualizada exitosamente"))
+                    const SnackBar(
+                      content: Text("Vacante actualizada exitosamente"),
+                    ),
                   );
 
                   // 2. LUEGO cerramos
@@ -144,9 +170,14 @@ class _EditVacancyScreenState extends State<EditVacancyScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2C3E50),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-                child: const Text("Guardar", style: TextStyle(color: Colors.white, fontSize: 16)),
+                child: const Text(
+                  "Guardar",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
               ),
             ),
           ],

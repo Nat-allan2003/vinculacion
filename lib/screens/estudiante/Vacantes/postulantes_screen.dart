@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import '../../models/vacancy.dart';
-import '../../models/applicant.dart';
+import '../../../models/vacancy.dart';
+import '../../../models/applicant.dart';
 import 'applicant_detail_screen.dart';
 
 class PostulantesScreen extends StatelessWidget {
   final Vacancy vacancy;
 
-  const PostulantesScreen({
-    super.key,
-    required this.vacancy,
-  });
+  const PostulantesScreen({super.key, required this.vacancy});
 
   @override
   Widget build(BuildContext context) {
-    // --- DATOS LOCALES (mock) ---
     final List<Applicant> localApplicants = [
       Applicant(
         id: '1',
         name: 'Angel Taffur',
         email: 'angel@gmail.com',
         skills: ['Flutter', 'Dart', 'Firebase'],
-        description: 'Desarrollador con 5 años de experiencia en desarrollo móvil.',
+        description:
+            'Desarrollador con 5 años de experiencia en desarrollo móvil.',
       ),
       Applicant(
         id: '2',
         name: 'Kevin Mitnick',
         email: 'kevin@example.com',
         skills: ['Seguridad', 'Backend', 'Python'],
-        description: 'Especialista en seguridad informática y desarrollo backend.',
+        description:
+            'Especialista en seguridad informática y desarrollo backend.',
       ),
       Applicant(
         id: '3',
@@ -117,10 +115,7 @@ class PostulantesScreen extends StatelessWidget {
                     ),
                     leading: const CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Color(0xFF2C3E50),
-                      ),
+                      child: Icon(Icons.person, color: Color(0xFF2C3E50)),
                     ),
                     title: Text(
                       applicant.name,

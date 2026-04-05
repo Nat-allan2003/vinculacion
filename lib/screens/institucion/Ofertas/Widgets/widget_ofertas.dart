@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:proto_segui/models/institucion_oferta.dart';
-import 'package:proto_segui/screens/institucion/Ofertas/editar_oferta_screen.dart';
+
+import '../../../../routes/pages.dart';
 
 class WidgetOfertas extends StatelessWidget {
   final InstitucionOferta oferta;
@@ -18,7 +19,7 @@ class WidgetOfertas extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE7EEF8)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.03),
+            color: Colors.black.withValues(alpha: .03),
             blurRadius: 16,
             offset: const Offset(0, 10),
           ),
@@ -99,11 +100,10 @@ class WidgetOfertas extends StatelessWidget {
             children: [
               OutlinedButton(
                 onPressed: () async {
-                  final updatedOffer = await Navigator.push(
+                  final updatedOffer = await Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => EditarOfertaScreen(offer: oferta),
-                    ),
+                    APPpages.institucionEditarOferta,
+                    arguments: oferta,
                   );
 
                   if (updatedOffer != null) {
@@ -172,15 +172,15 @@ class InstitutionNavBar extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.90),
+                color: Colors.white.withValues(alpha: .90),
                 borderRadius: BorderRadius.circular(26),
                 border: Border.all(
-                  color: Colors.black.withOpacity(.85),
+                  color: Colors.black.withValues(alpha: .85),
                   width: 1.1,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.14),
+                    color: Colors.black.withValues(alpha: .14),
                     blurRadius: 28,
                     offset: const Offset(0, 12),
                   ),
@@ -188,13 +188,13 @@ class InstitutionNavBar extends StatelessWidget {
               ),
               child: NavigationBarTheme(
                 data: NavigationBarThemeData(
-                  indicatorColor: cs.primary.withOpacity(.14),
+                  indicatorColor: cs.primary.withValues(alpha: .14),
                   iconTheme: WidgetStateProperty.resolveWith((states) {
                     if (states.contains(WidgetState.selected)) {
                       return IconThemeData(color: cs.primary, size: 26);
                     }
                     return IconThemeData(
-                      color: Colors.black.withOpacity(.70),
+                      color: Colors.black.withValues(alpha: .70),
                       size: 24,
                     );
                   }),
@@ -206,7 +206,7 @@ class InstitutionNavBar extends StatelessWidget {
                       );
                     }
                     return TextStyle(
-                      color: Colors.black.withOpacity(.65),
+                      color: Colors.black.withValues(alpha: .65),
                       fontWeight: FontWeight.w800,
                     );
                   }),

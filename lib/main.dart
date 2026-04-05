@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'config/theme.dart';
-import 'screens/auth/login_gateway_screen.dart';
+import 'package:proto_segui/routes/pages.dart';
+import 'package:proto_segui/routes/router.dart';
+import 'utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Seguimiento Graduados',
       theme: AppTheme.getTheme(),
-      home: const LoginGatewayScreen(),
+      initialRoute: APPpages.inicio,
+      onGenerateRoute: APPRouter.generadorRutas,
     );
   }
 }
